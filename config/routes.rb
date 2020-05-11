@@ -1,4 +1,12 @@
 Rails.application.routes.draw do
+  get 'authentication/none'
+  get 'authentication/signature'
+  get 'authentication/weak'
+  get 'authentication/hmac'
+  get 'authentication/rce'
+  get '/home', to: 'static_pages#home'
+  get '/help', to: 'static_pages#help'
+  get '/challenges', to: 'static_pages#challenges'
   resources :users
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+  root 'static_pages#home'
 end
