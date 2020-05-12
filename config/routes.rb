@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   get '/home', to: 'static_pages#home'
   get '/help', to: 'static_pages#help'
   get '/challenges', to: 'static_pages#challenges'
+  get '/register', to: 'static_pages#register'
   resources :users
   root 'static_pages#home'
 end

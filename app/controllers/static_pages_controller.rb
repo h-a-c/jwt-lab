@@ -7,4 +7,7 @@ class StaticPagesController < ApplicationController
 
   def challenges
   end
+
+  def register
+  end
 end
