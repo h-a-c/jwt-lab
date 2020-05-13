@@ -10,4 +10,6 @@ Rails.application.routes.draw do
   get '/register', to: 'static_pages#register'
   resources :users
   root 'static_pages#home'
+
+  post '/authentication/none', to: 'authentication#authnone'
 end
