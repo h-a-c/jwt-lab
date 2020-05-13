@@ -1,6 +1,11 @@
 class AuthenticationController < ApplicationController
+  require 'json'
   def none
-    cookies["challenge"] = Auth.none_encode("test")
+    if cookies["challenge"].length
+      logger.debug("we got a cookie!")
+    else
+      logger.debug("no cookie to eat")
+    end
   end
 
   def signature
@@ -16,6 +21,16 @@ class AuthenticationController < ApplicationController
   end
 
   def authnone
-  cookies[:user_name] = "david"
+    username = params[:session]["name"]
+    @user = User.find_by_name(params[:session]["name"])
+    
+    if @user.authenticate(params[:session]["password"])
+      token = Auth.encode(name: @user.name)
+      logger.debug("good password")
+      logger.debug(token)
+      cookies["challenge"] = token
+    else
+      logger.debug("bad password")
+    end
   end
 end
