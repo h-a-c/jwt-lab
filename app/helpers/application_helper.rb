@@ -12,6 +12,8 @@ module ApplicationHelper
 		if cookies().key?("challenge")
 			if request.original_url.include? "none"
 				none()
+			elsif request.original_url.include? "hmac"
+				hmac()
 			end
 		else
 			'No cookie challenge available'
@@ -29,5 +31,13 @@ module ApplicationHelper
 		else
 			Auth.none_decode(cookies['challenge'])
 		end
+	end
+
+	def hmac
+		result = Auth.decode(cookies['challenge'])
+		if result.include? "Invalid"
+			return Auth.hmac_decode(cookies['challenge'])
+		end
+		"Current user is: #{result[0]['name']}"
 	end
 end

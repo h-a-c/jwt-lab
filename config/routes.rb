@@ -12,4 +12,5 @@ Rails.application.routes.draw do
   root 'static_pages#home'
 
   post '/authentication/none', to: 'authentication#authnone'
+  post '/authentication/hmac', to: 'authentication#authhmac'
 end
