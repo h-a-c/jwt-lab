@@ -13,4 +13,6 @@ Rails.application.routes.draw do
 
   post '/authentication/none', to: 'authentication#authnone'
   post '/authentication/hmac', to: 'authentication#authhmac'
+  post '/authentication/signature', to: 'authentication#authsig'
+  post '/authentication/weak', to: 'authentication#authweak'
 end

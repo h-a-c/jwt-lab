@@ -1,2 +1,11 @@
-<h1>Authentication#weak</h1>
-<p>Find me in app/views/authentication/weak.html.erb</p>
+<h1>Labs - The signature is weak</h1>
+<b>Goal: Register a user and gain access to the admin user.</b>
+<div class="col-md-5">
+	<p>
+	Developers might have a weak signature for the signature of the JWT.
+	<div class="alert alert-info" role="alert">
+	  <%= current_user()=%>
+	</div>
+	</p>
+</div>
+<%= render 'layouts/login' %>

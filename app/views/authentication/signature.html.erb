@@ -1,2 +1,11 @@
-<h1>Authentication#signature</h1>
-<p>Find me in app/views/authentication/signature.html.erb</p>
+<h1>Labs - The signature is not checked</h1>
+<b>Goal: Register a user and gain access to the admin user.</b>
+<div class="col-md-5">
+	<p>
+	Some lazy developers don't even check the signature! Crazy right!?
+	<div class="alert alert-info" role="alert">
+	  <%= current_user()=%>
+	</div>
+	</p>
+</div>
+<%= render 'layouts/login' %>

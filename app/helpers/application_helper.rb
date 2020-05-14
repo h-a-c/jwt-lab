@@ -14,6 +14,10 @@ module ApplicationHelper
 				none()
 			elsif request.original_url.include? "hmac"
 				hmac()
+			elsif request.original_url.include? "signature"
+				signature()
+			elsif request.original_url.include? "weak"
+				weak()
 			end
 		else
 			'No cookie challenge available'
@@ -27,9 +31,9 @@ module ApplicationHelper
 		particles = cookies['challenge'].split('.')
 		if particles.size > 2
 			result = Auth.decode(cookies['challenge'])
-			"Current user is: #{result[0]['name']}"
+			"Current user is: #{Auth.none_decode(cookies['challenge'])[0]['name']}"
 		else
-			Auth.none_decode(cookies['challenge'])
+			"Current user is: #{Auth.none_decode(cookies['challenge'])}"
 		end
 	end
 
@@ -39,5 +43,17 @@ module ApplicationHelper
 			return Auth.hmac_decode(cookies['challenge'])
 		end
 		"Current user is: #{result[0]['name']}"
+	end
+
+	def signature
+		"Current user is: #{Auth.none_decode(cookies['challenge'])[0]['name']}"
+	end
+
+	def weak
+		result = Auth.weak_decode(cookies['challenge'])
+		if result.include? "Invalid"
+			return 'Invalid Cookie'
+		end
+		"Current user is #{result[0]['name']}"
 	end
 end
