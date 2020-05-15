@@ -60,4 +60,14 @@ class AuthenticationController < ApplicationController
     end
     redirect_to '/authentication/weak'
   end
+
+  def authkid
+    username = params[:session]["name"]
+    @user = User.find_by_name(params[:session]["name"])
+    if @user.present? && @user.authenticate(params[:session]["password"])
+      token = Auth.kid_encode_test(name: @user.name)
+      cookies["challenge"] = token
+    end
+    redirect_to '/authentication/kid'
+  end
 end

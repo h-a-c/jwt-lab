@@ -18,6 +18,8 @@ module ApplicationHelper
 				signature()
 			elsif request.original_url.include? "weak"
 				weak()
+			elsif request.original_url.include? "kid"
+				kid()
 			end
 		else
 			'No cookie challenge available'
@@ -51,6 +53,14 @@ module ApplicationHelper
 
 	def weak
 		result = Auth.weak_decode(cookies['challenge'])
+		if result.include? "Invalid"
+			return 'Invalid Cookie'
+		end
+		"Current user is #{result[0]['name']}"
+	end
+
+	def kid
+		result = Auth.kid_decode(cookies['challenge'])
 		if result.include? "Invalid"
 			return 'Invalid Cookie'
 		end

@@ -4,6 +4,9 @@ Rails.application.routes.draw do
   get 'authentication/weak'
   get 'authentication/hmac'
   get 'authentication/rce'
+  get 'authentication/kid'
+  get 'authentication/random'
+
   get '/home', to: 'static_pages#home'
   get '/help', to: 'static_pages#help'
   get '/challenges', to: 'static_pages#challenges'
@@ -15,4 +18,5 @@ Rails.application.routes.draw do
   post '/authentication/hmac', to: 'authentication#authhmac'
   post '/authentication/signature', to: 'authentication#authsig'
   post '/authentication/weak', to: 'authentication#authweak'
+  post '/authentication/kid', to: 'authentication#authkid'
 end

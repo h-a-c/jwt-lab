@@ -35,6 +35,13 @@ class Auth
 		JWT.encode payload, key, 'HS256'
 	end
 
+	def self.kid_encode(payload)
+		file = File.open("rsa_private")
+		header = {kid: "rsa_private"}
+		file_data = file.read
+		JWT.encode payload, file_data, 'HS256', header
+	end
+
 	def self.weak_decode(payload)
 		begin
 			key = "iloveyou"
@@ -42,6 +49,25 @@ class Auth
 		rescue
 			"Invalid"
 		end
+	end
+
+	def self.kid_decode(payload)
+		begin
+			particles = payload.split(".")
+			header = JSON.parse(Base64.decode64(particles[0]))
+			file = File.open(header['kid'])
+			file_data = file.read
+			JWT.decode payload, file_data, 'HS256'
+		rescue
+			"Invalid"
+		end
+	end
+
+	def self.kid_encode_test(payload)
+		file = File.open("app/views/authentication/random.html.erb")
+		header = {kid: "app/views/authentication/random.html.erb"}
+		file_data = file.read
+		JWT.encode payload, file_data, 'HS256', header
 	end
 
 	def self.decode(payload)
