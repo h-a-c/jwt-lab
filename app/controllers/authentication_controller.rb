@@ -70,4 +70,8 @@ class AuthenticationController < ApplicationController
     end
     redirect_to '/authentication/kid'
   end
+
+  def authrce
+    system('touch poo')
+  end
 end

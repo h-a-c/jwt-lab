@@ -1,2 +1,11 @@
-<h1>Authentication#rce</h1>
-<p>Find me in app/views/authentication/rce.html.erb</p>
+<h1>Labs - Command Execution Vulnerability</h1>
+<b>Goal: Register a user and gain access to the admin user.</b>
+<div class="col-md-5">
+	<p>The way this exploit works is that the programmer reads the key identifier (kid) and using that to verify the JWT. It uses out of date software. Ruby x.x (exploitdb).
+		In this case I have used system() to open the file but the exploit should be the same.
+	<div class="alert alert-info" role="alert">
+	  <%= current_user()=%>
+	</div>
+	</p>
+</div>
+<%= render 'layouts/login' %>

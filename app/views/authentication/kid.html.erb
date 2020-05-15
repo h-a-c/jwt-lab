@@ -1,9 +1,10 @@
-<h1>Labs - The signature is not checked</h1>
+<h1>Labs - Kid Vulnerability</h1>
 <b>Goal: Register a user and gain access to the admin user.</b>
 <div class="col-md-5">
 	<p>
 	You can use files accessible from the web root as a key. I will give you this random page. Due to the way ruby works the layouts for the header is rendered but not part of the file itself. Therefore ignore the header and just use the text for the key.
 	<%= link_to "Random Page", "/authentication/random" =%>
+	<br>The way this exploit works is that the programmer reads the key identifier (kid) and using that to verify the JWT.
 	<div class="alert alert-info" role="alert">
 	  <%= current_user()=%>
 	</div>
