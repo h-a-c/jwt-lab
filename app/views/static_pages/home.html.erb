@@ -2,7 +2,102 @@
 
 <div class="container">
   <div class="row justify-content-md-center">
-    <div class="col-md-6">
-There are multiple vulnerabilities exist within JSON Web Tokens. This is a quick and easy lab for you to understand the fundamentals of JWTs and how to exploit them. Visit the help page for further information.    </div>
-    </div>
+    <div class="col-md-7">
+	<h1> Quick Debrief</h1>
+	<p>
+		There are multiple vulnerabilities exist within JSON Web Tokens. This is a quick and easy lab for you to understand the fundamentals of JWTs and how to exploit them.
+	</p>
+	<h3> JSON Web Token Basics </h3>
+	<p>
+		A JSON Web Token (JWT) is split into three parts; the header, body, signature. This allows small pieces of information to be securely transmitted between parties. The integrity of the information is enforced by the signature. The most common use for JWTs is Authorization and Information Transfer. 
+	</p>
+	<h4><u>Structure of JWTs</u> </h4>
+	<p>
+		Each section of a JSON Web Token is individually Base64Url encoded. <br>
+		<b>header.body.signature</b> 
+	</p>
+	<h4><u>Header</u></h4>
+	<p>
+		The most important information in the header is the algorithm used for the signature. The main algorithms that are supported out there are: 
+		<ul>
+			<li> HMAC </li>
+			<li> SHA256 </li>
+			<li> RSA </li>
+		</ul>
+		Additional information that may be in the header are:
+		<ul>		
+	    <li>'exp' (Expiration Time) Claim</li>
+	    <li>'nbf' (Not Before Time) Claim</li>
+	    <li>'iss' (Issuer) Claim</li>
+	    <li>'aud' (Audience) Claim</li>
+	    <li>'jti' (JWT ID) Claim</li>
+	    <li>'iat' (Issued At) Claim</li>
+	    <li>'sub' (Subject) Claim </li>
+	    <li><b>'kid' Key Identifier</b></li>
+    	</ul>
+    	The Key Identifier contains a value which can be used to get the key for the signature. This value can have 2 different vulnerabilities; SQL Injection and File Traversal. This will be discussed in more detail in the walkthrough section.
+	</p>
+	<h4><u>Body</u></h4>
+	<p>
+		The body of the JWT is separated from the header and signature through the use of full stops. This part of the token contains the information that is being sent. Usually it contains the authenticated user and an iat which is used to verify when the token was created. The iat can be used to give the token a period of validity. In the set of challenges, the goal is to modify the body so that the user = admin. 
+	</p>
+	<h4><u>Signature</u></h4>
+	<p>
+		The signature is made from the algorithm listed in the header. This is used to ensure the data has not been tampered with. To create the signature, the algorithm needs to be applied on the following payload: <br><br>base64urlencoded(header)+"."+base64urlencoded(body)
+	</p>
+	<p> <b>If it is possible to modify the body and have a valid signature. It would be possible to escalate privileges to a higher user such as admin.</b> </p>
+
+	<h3> Popular vulnerabilities with JSON Web Tokens</h3>
+	When implementing your own JSON Web Tokens or when encountering it during a penetration test. It is important to look out for the following issues that may occur due to the way it has been implemented.<br><br>
+	<ol>
+		<li><b>Check which algorithms are supported </b>
+			<p>
+				Try to use the "none" algorithm. This algorithm does not require a signature which means the integrity of the token cannot be checked. Sometimes, the signature isn't even checked!
+			</p>
+			<p>
+				Try to check if it is possible to use HMAC (HS256) to sign the signature.
+			</p>
+		</li>
+		<li>
+			<b>Perform more enumeration to check for unecessarily exposed keys.</b>
+			<p> 
+				If it is possible to change the algorithm to HS256 and the verification key has been exposed, then it should be possible to create a valid signature
+			</p>
+		</li>
+		<li>
+			<b>If HMAC (HS256) is used. Try to bruteforce the key. </b>
+			<p>If the key is recovered, then it will be possible to create valid signatures. A good tool to use for this is Hashcat.<br>hashcat -a0 -m 16500 text.hash [dict]</p>
+		</li>
+		<li>
+			<b>Look at the header parameters and fuzz them to see if it is vulnerable.</b>
+			<p>The kid (key identifier) is used to identify which key is used for the token. This value can be vulnerable to file traversal. Thus if you can find a file exposed on the server (for example a css file). That file can be used as the key for the signature. This kind of vulnerability may exist with the other possible headers such as JKU and x5u as they also may be used to determine which key is used.</p>
+			<p>It is also possible for the kid value to access a database and as a result, SQL Injections may be possible.
+			</p>
+		</li>
+		<li>
+			<b>If the application is written in an out of date version of Ruby and contains the kid value. It could be vulnerable to command injection</b>
+			<p>
+				This exploit may occur when libraries use vulnerable system calls to read the file.
+			</p>
+		</li>
+	</ol>
+
+	A useful link I found to have bookmarked is: 
+	<a href="https://github.com/ticarpi/jwt_tool/wiki">https://github.com/ticarpi/jwt_tool/wiki</a>. It contains a list of all the vulnerabilities for JWTs.
+	<p><br>
+	The challenges I have made are some of the basic vulnerabilities for poor implementation of JWTs. The main goal is for you to have gained some experience so when the real thing comes along in a test or development process. Therefore, you will have a good methology and mindset for ensuring they are secure.
+	<br><br>
+	<b>Enjoy my lab and let me know what you think.</b>
+	</p>
+	<h5>References:</h5>
+	<ul>
+		<li>https://tools.ietf.org/html/rfc7515</li>
+		<li>https://jwt.io/introduction/</li>
+		<li>https://medium.com/101-writeups/hacking-json-web-token-jwt-233fe6c862e6</li>
+		<li>https://medium.com/swlh/hacking-json-web-tokens-jwts-9122efe91e4a</li>
+		<li>Pentester Lab Pro - all JWT exercises.</li>
+		<li>https://github.com/ticarpi/jwt_tool/wiki/Known-Exploits-and-Attacks</li>
+	</ul>
+	</div>
+  </div>
 </div>

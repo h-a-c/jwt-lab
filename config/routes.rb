@@ -3,7 +3,6 @@ Rails.application.routes.draw do
   get 'authentication/signature'
   get 'authentication/weak'
   get 'authentication/hmac'
-  get 'authentication/rce'
   get 'authentication/kid'
   get 'authentication/random'
 
@@ -19,5 +18,4 @@ Rails.application.routes.draw do
   post '/authentication/signature', to: 'authentication#authsig'
   post '/authentication/weak', to: 'authentication#authweak'
   post '/authentication/kid', to: 'authentication#authkid'
-  post '/authentication/rce', to: 'authentication#authrce'
 end

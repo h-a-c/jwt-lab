@@ -65,13 +65,10 @@ class AuthenticationController < ApplicationController
     username = params[:session]["name"]
     @user = User.find_by_name(params[:session]["name"])
     if @user.present? && @user.authenticate(params[:session]["password"])
-      token = Auth.kid_encode_test(name: @user.name)
+      token = Auth.kid_encode(name: @user.name)
       cookies["challenge"] = token
     end
     redirect_to '/authentication/kid'
   end
 
-  def authrce
-    system('touch poo')
-  end
 end

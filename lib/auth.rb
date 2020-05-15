@@ -79,4 +79,5 @@ class Auth
 			"Invalid RSA Token"
 		end
 	end
+
 end
