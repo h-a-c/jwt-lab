@@ -1,25 +1,12 @@
-# README
+This is a JSON Web Token challenge lab. Feel free to clone it or visit it at https://jwt-lab.herokuapp.com/
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+If you want to get it working on your own computer/server.
 
-Things you may want to cover:
+git clone https://github.com/h-a-c/jwt-lab
+sudo snap install ruby --classic
+cd jwt-lab
+bundle install 
+rails db:migrate
+rails s
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-# jwt-lab
+You might have some issues with bundle install but nothing a google search can't help with.
