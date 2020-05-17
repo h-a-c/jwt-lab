@@ -35,16 +35,20 @@ module ApplicationHelper
 			result = Auth.decode(cookies['challenge'])
 			"Current user is: #{Auth.none_decode(cookies['challenge'])[0]['name']}"
 		else
-			"Current user is: #{Auth.none_decode(cookies['challenge'])}"
+			"Current user is: #{Auth.none_decode(cookies['challenge'])[0]['name']}"
 		end
 	end
 
 	def hmac
-		result = Auth.decode(cookies['challenge'])
-		if result.include? "Invalid"
-			return Auth.hmac_decode(cookies['challenge'])
+		rsa_decode = Auth.decode(cookies['challenge'])
+		if rsa_decode.include? "Invalid"
+			hmac_decode = Auth.hmac_decode(cookies['challenge'])
+			if hmac_decode.include? "Invalid"
+				return "Invalid Token"
+			end
+			return "Current user is: #{hmac_decode[0]['name']}"
 		end
-		"Current user is: #{result[0]['name']}"
+		rsa_decode
 	end
 
 	def signature
