@@ -1,8 +1,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-gem 'sqlite3', '1.4.1'
-gem 'bcrypt',         '3.1.13'
+gem 'pg'
 gem 'jwt'
 gem 'rails',                      '6.0.3'
 gem 'image_processing',           '1.9.3'
